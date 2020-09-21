@@ -1,0 +1,14 @@
+
+.idea/
+.vscode/
+node_modules/
+build/
+
+# dotenv environment variables file
+.env
+.env.development
+.env.production
+.env.test
+
+# ignore log related
+logs/*.log
