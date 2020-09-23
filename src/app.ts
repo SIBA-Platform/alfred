@@ -9,13 +9,14 @@ import {
 import { routeControllerOptions } from "./utils/RouteConfig";
 import { logger, stream } from "./utils/Logger";
 import morgan from "morgan";
+import { useSlackEvent } from "./utils/Slack";
+import "reflect-metadata";
 
 export class App {
     public app: express.Application;
 
     constructor() {
         this.app = express();
-        this.setMiddlewares();
     }
 
     /**
@@ -35,6 +36,8 @@ export class App {
         try {
             routingUseContainer(Container);
             useExpressServer(this.app, routeControllerOptions);
+            useSlackEvent(this.app);
+            this.setMiddlewares();
 
             this.app.listen(port, () => {
                 logger.info(`Server is running on http://localhost:${port}`);

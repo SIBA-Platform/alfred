@@ -13,9 +13,13 @@ require("dotenv").config({
     isDevelopment: process.env.NODE_ENV === "development",
     isProduction: process.env.NODE_ENV === "production",
     isTest: process.env.NODE_ENV === "test",
-
     app:{
         port: Number(process.env.PORT) || 3000,
+    },
+    slack:{
+        signingSecret: process.env.SIGNING_SECRET,
+        endPoint: process.env.END_POINT,
+        botUserOauthAccessToekn: process.env.BOT_USER_OAUTH_ACCESS_TOKEN
     }
  }
   
