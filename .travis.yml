@@ -25,3 +25,38 @@ before_script:
 
 script:
     - npm run test
+
+#before deploy
+before_deploy:
+  - zip -r alfred * #alfred 이름으로 압축
+  - mkdir -p deploy #deploy dir생성
+  - mv alfred.zip deploy/alfred.zip #압축파일을 deploy dir하위로 이동
+
+#deploy settings
+deploy:
+  - provider: s3
+    access_key_id: $AWS_ACCESS_KEY # Travis repo settings에 설정된 값
+    secret_access_key: $AWS_SECRET_KEY # Travis repo settings에 설정된 값
+    bucket: alfred-deploy # S3 버킷
+    region: ap-northeast-2 # region
+    skip_cleanup: true
+    acl: public_read
+    local_dir: deploy # before_deploy에서 생성한 디렉토리, 해당 디렉토리 내용들만 S3로 전송
+    wait-until-deployed: true
+    on:
+      repo: SIBA-Platform/alfred #Github 주소
+      branch: master
+
+  - provider: codedeploy
+    access_key_id: $AWS_ACCESS_KEY # Travis repo settings에 설정된 값
+    secret_access_key: $AWS_SECRET_KEY # Travis repo settings에 설정된 값
+    bucket: alfred-deploy # S3 버킷
+    key: alfred.zip # S3 버킷에 저장된 springboot-webservice.zip 파일을 EC2로 배포
+    bundle_type: zip
+    application: alfred # 웹 콘솔에서 등록한 CodeDeploy 어플리케이션
+    deployment_group: alfred-group # 웹 콘솔에서 등록한 CodeDeploy 배포 그룹
+    region: ap-northeast-2
+    wait-until-deployed: true
+    on:
+      repo: SIBA-Platform/alfred #Github 주소
+      branch: master
