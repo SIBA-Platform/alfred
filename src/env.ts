@@ -15,11 +15,14 @@ require("dotenv").config({
     isTest: process.env.NODE_ENV === "test",
     app:{
         port: Number(process.env.PORT) || 3000,
+        apiPrefix: process.env.API_PREFIX
     },
     slack:{
         signingSecret: process.env.SIGNING_SECRET,
         endPoint: process.env.END_POINT,
-        botUserOauthAccessToekn: process.env.BOT_USER_OAUTH_ACCESS_TOKEN
+        botUserOauthAccessToekn: process.env.BOT_USER_OAUTH_ACCESS_TOKEN,
+        notionNoteChannelId: process.env.NOTION_NOTE_CHANNEL_ID,
+        generalChannelId: process.env.GENERAL_CHANNEL
     }
  }
   

@@ -10,34 +10,63 @@ import {
 /**
  * 
  */
-export class CreateSlackEventDto {
-    @IsNotEmpty()
+export class SlackEventDto {
+    @IsOptional()
     client_msg_id: string;
 
     @IsNotEmpty()
     type: string;
 
+    @IsOptional()
+    subtype: string;
+
+    @IsOptional()
+    bot_id: string;
+
     @IsNotEmpty()
     text: string;
 
-    @IsNotEmpty()
+    @IsOptional()
     user: string;
 
     @IsNotEmpty()
     ts: string;
 
-    @IsNotEmpty()
+    @IsOptional()
     team: string;
 
-    @IsNotEmpty()
+    @IsOptional()
     blocks: Object[];
+
+    @IsOptional()
+    attachments: AttachmentsDto[]
 
     @IsNotEmpty()
     channel: string;
 
-    @IsNotEmpty()
+    @IsOptional()
     event_ts: string;
 
-    @IsNotEmpty()
+    @IsOptional()
     channel_type: string;
+}
+
+export class AttachmentsDto {
+    @IsOptional()
+    text: string;
+
+    @IsNotEmpty()
+    id: number;
+
+    @IsNotEmpty()
+    color: string;
+
+    @IsNotEmpty()
+    fallback: string;
+
+    @IsOptional()
+    footer: string;
+
+    @IsOptional()
+    ts: number;
 }

@@ -1,8 +1,10 @@
 import { createEventAdapter } from "@slack/events-api";
-import {Service, Container} from "typedi";
+import { Service, Container } from "typedi";
 import express from "express";
 import { env } from "../env";
-import { SlackMessageService } from "../services/SlackMessageService";
+import { SlackChatService } from "../services/SlackChatService";
+import { logger } from "../utils/Logger";
+import { NotionNoteService } from "../services/NotionNoteService";
 
 export function useSlackEvent (app: express.Application) {
     /**
@@ -20,6 +22,12 @@ export function useSlackEvent (app: express.Application) {
      */
     slackEvent.on('message', async (event) => {
         console.log(event);
-        Container.get(SlackMessageService).sendReply(event)
+        logger.info("Event message is push inside");
+        const isNotionNoteService = event.channel === env.slack.notionNoteChannelId && event.subtype === "bot_message";
+
+        if(isNotionNoteService) {
+            const reply = Container.get(NotionNoteService).createReply(event);
+            Container.get(SlackChatService).postMessage(reply);
+        }
     });
 }
