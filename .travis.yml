@@ -1,0 +1,21 @@
+# Set up notification options
+notifications: 
+  email:
+    recipients:
+      - sencom1028@gmail.com
+
+# specify language
+language : node_js
+
+# configure which branches to run
+branches:
+    # whitelist
+    only:
+        - master
+        - /^deploy-.*$/ # regex ok
+
+install:
+    - npm install
+    
+script:
+    - npm run test
