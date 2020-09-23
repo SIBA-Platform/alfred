@@ -1,0 +1,27 @@
+# Set up notification options
+notifications: 
+  email:
+    recipients:
+      - sencom1028@gmail.com
+
+# specify language
+language : node_js
+
+node_js: 
+    - 12
+
+# configure which branches to run
+branches:
+    # whitelist
+    only:
+        - master
+
+install:
+    - npm install
+
+before_script:
+    - npm i typescript -D
+    - tsc
+
+script:
+    - npm run test
