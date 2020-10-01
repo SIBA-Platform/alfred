@@ -12,3 +12,6 @@ build/
 
 # ignore log related
 logs/*.log
+
+# Ignore test-related files
+/coverage/
